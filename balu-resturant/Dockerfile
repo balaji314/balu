@@ -1,20 +1,20 @@
-# Use Node.js base image
-FROM node:18
+# Use official Python image
+FROM python:3.10-slim
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first
-COPY package*.json ./
+# Copy requirements.txt first (for layer caching)
+COPY requirements.txt .
 
 # Install dependencies
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the app
+# Copy all files
 COPY . .
 
-# Expose the app port (update if different)
-EXPOSE 3000
+# Expose app port (adjust if needed)
+EXPOSE 5000
 
-# Start the app
-CMD ["node", "app.js"]
+# Run the Python app (adjust to your main script)
+CMD ["python", "app.py"]
